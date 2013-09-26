@@ -12,7 +12,8 @@ public:
 	virtual ~PlanePrimitive();
 
 	virtual Primitive::E_INTERSECT_RESULT Intersect(const ci::Ray& inRay, float& inDist);
-	
+	virtual void RenderGL();
+
 protected:
 private:
 };

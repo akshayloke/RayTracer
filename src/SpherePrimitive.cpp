@@ -1,4 +1,5 @@
 #include "SpherePrimitive.h"
+#include "cinder/gl/gl.h"
 
 SpherePrimitive::SpherePrimitive() : Sphere() {
 }
@@ -50,4 +51,10 @@ Primitive::E_INTERSECT_RESULT SpherePrimitive::Intersect(const cinder::Ray& inRa
 
 ci::Vec3f SpherePrimitive::GetNormal(const ci::Vec3f& inPoint) {
 	return (inPoint - mCenter).normalized();
+}
+
+void SpherePrimitive::RenderGL() {
+	ci::gl::color(GetMaterial().GetDiffuseColor());
+	ci::gl::drawSphere(mCenter, mRadius);
+	glColor3f( 1, 1, 1 );
 }

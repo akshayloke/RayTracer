@@ -1,4 +1,5 @@
 #include "PlanePrimitive.h"
+#include "cinder/gl/gl.h"
 
 PlanePrimitive::PlanePrimitive() : Primitive(), Plane() {
 }
@@ -21,4 +22,8 @@ Primitive::E_INTERSECT_RESULT PlanePrimitive::Intersect(const cinder::Ray& inRay
 			return MISS;
 	}
 	return MISS;
+}
+
+void PlanePrimitive::RenderGL() {
+	
 }

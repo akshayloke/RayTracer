@@ -12,6 +12,7 @@ public:
 	virtual Primitive::E_INTERSECT_RESULT Intersect(const cinder::Ray& inRay, float& inDist);
 	virtual cinder::Vec3f GetNormal(const ci::Vec3f& inPoint);
 	
+	virtual void RenderGL();
 protected:
 private:	
 };
