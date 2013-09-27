@@ -13,11 +13,9 @@ public:
 	enum E_INTERSECT_RESULT {
 		MISS, HIT, HIT_INSIDE
 	};
-	virtual E_INTERSECT_RESULT Intersect(const cinder::Ray& inRay, const float& inDist) {
-		return MISS;
-	}
+	virtual E_INTERSECT_RESULT Intersect(const cinder::Ray& inRay, float& inDist) = 0;
 	virtual ci::Vec3f GetNormal(const ci::Vec3f& inPoint) { return ci::Vec3f(0, 1, 0);	}
-	
+
 	void SetName(const std::string& _name) { m_name= _name;	}
 	std::string GetName() { return m_name; }
 

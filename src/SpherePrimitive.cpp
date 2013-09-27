@@ -22,8 +22,12 @@ Primitive::E_INTERSECT_RESULT SpherePrimitive::Intersect(const cinder::Ray& inRa
 		return MISS;
 	}
 	else if (intersectResult == 1) {
-		inDist = result[0];
-		return HIT;
+		if (result[0] < inDist) {
+			inDist = result[0];
+			return HIT;
+		}
+		else
+			return MISS;		
 	}
 	else { //(intersectResult = 2)
 		if (result[1] < result[0]) {
@@ -37,12 +41,21 @@ Primitive::E_INTERSECT_RESULT SpherePrimitive::Intersect(const cinder::Ray& inRa
 		}
 
 		if (result[0] * result[1] < 0) {
-			return HIT_INSIDE;
+			if (result[1] < inDist) {
+				inDist = result[1];
+				return HIT_INSIDE;
+			}
+			else
+				return MISS;
 		}
 
 		if (result[0] > 0) {
-			inDist = result[0];
-			return HIT;
+			if (result[0] < inDist) {
+				inDist = result[0];
+				return HIT;
+			}
+			else
+				return MISS;
 		}
 
 		return MISS;

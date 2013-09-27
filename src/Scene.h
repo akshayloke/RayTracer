@@ -14,12 +14,12 @@ public:
 	void Setup();
 	void RenderGL();
 	void Render(ci::Surface8u *surface);
-	ci::ColorA Raytrace(const ci::Ray& ray);
+	ci::ColorA Raytrace(const ci::Ray& inRay, int inDepth, float& inDist);
 
 protected:
 
 private:
 	std::vector<Primitive*> m_primitives;
 	const ci::Camera*	m_camera;
-	
+
 };

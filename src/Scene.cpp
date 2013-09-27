@@ -64,15 +64,47 @@ void Scene::RenderGL() {
 	for (int i=0; i<m_primitives.size(); i++) {
 		m_primitives[i]->RenderGL();
 	}
-	
+
 	light.disable();
 }
 
 void Scene::Render(ci::Surface8u *surface) {
 	Surface8u::Iter iter = surface->getIter();
-
+	int width = surface->getWidth();
+	int height = surface->getHeight();
+	float aspectRatio = width / (float)height;
+	Color8u bgColor(0, 95, 255);
+	while (iter.line()) {
+		while (iter.pixel()) {
+			float inDist = 10000.0f;
+			ColorA color = Raytrace(m_camera->generateRay(iter.x()/(float)width, iter.y()/(float)height, aspectRatio), 0, inDist);
+			iter.r() = bgColor.r * (1.0f - color.a) + color.r * 255.0f;
+			iter.g() = bgColor.g * (1.0f - color.a) + color.g * 255.0f;
+			iter.b() = bgColor.b * (1.0f - color.a) + color.b * 255.0f;
+		}
+		//iter.line();
+	}
 }
 
-ci::ColorA Scene::Raytrace(const ci::Ray& ray) {
-	return ci::ColorA::black;
+ci::ColorA Scene::Raytrace(const ci::Ray& inRay, int inDepth, float& inDist) {
+	if (inDepth > 2)
+		return ci::ColorA::black();
+
+	Primitive* hitPrim = NULL;
+	for (int i=0; i<m_primitives.size(); i++) {
+		Primitive* prim = m_primitives[i];
+		Primitive::E_INTERSECT_RESULT result = prim->Intersect(inRay, inDist);
+		if (result != Primitive::MISS) {
+			hitPrim = prim;
+		}
+	}
+
+	if (!hitPrim)
+		return ci::ColorA::black();
+
+	if (hitPrim->IsLight()) 
+		return ci::ColorA::white();
+	else {
+		return hitPrim->GetMaterial().GetDiffuseColor();
+	}
 }

@@ -55,6 +55,8 @@ void RayTracerApp::mouseDrag( MouseEvent event )
 
 void RayTracerApp::update()
 {
+	m_scene.Render(m_imageSurface.get());
+	m_imageTexture.update(*m_imageSurface);
 }
 
 void RayTracerApp::draw()
@@ -73,8 +75,29 @@ void RayTracerApp::draw()
 	gl::setMatrices(m_mayaCam.getCamera());
 	//render sceneGL
 	m_scene.RenderGL();
+
+	gl::setMatricesWindow( getWindowSize() );//set to ortho
+
+	// draw as much of the texture as we've rendered
+	glDisable( GL_LIGHTING );
+	glDepthMask( GL_TRUE );
+	glDisable( GL_DEPTH_TEST );
 	
-	//gl::setMatricesWindow(getWindowSize()); //sets to ortho
+	glColor3f( 1, 1, 1 );
+	m_imageTexture.enableAndBind();
+	glBegin( GL_QUADS );
+		glTexCoord2f( m_imageTexture.getLeft(), m_imageTexture.getTop() );
+		glVertex2f( 0, 0 );
+
+		glTexCoord2f( m_imageTexture.getLeft(), m_imageTexture.getBottom() );
+		glVertex2f( 0, m_imageTexture.getHeight() );
+
+		glTexCoord2f( m_imageTexture.getRight(), m_imageTexture.getBottom() );
+		glVertex2f( m_imageTexture.getWidth(), m_imageTexture.getHeight() );
+
+		glTexCoord2f( m_imageTexture.getRight(), m_imageTexture.getTop() );
+		glVertex2f( m_imageTexture.getWidth(), 0 );
+	glEnd();
 }
 
 CINDER_APP_NATIVE( RayTracerApp, RendererGl )

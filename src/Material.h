@@ -17,7 +17,7 @@ public:
 	float GetDiffuseCoefficient()							{	return m_diffuseCoefficient;		}
 	float GetSpecularCoefficient()							{	return m_specularCoefficient;		}
 protected:
-	
+
 private:
 	cinder::ColorA m_diffuse, m_specular;
 	float m_diffuseCoefficient, m_specularCoefficient;
