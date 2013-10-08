@@ -16,9 +16,12 @@ public:
 	void SetSpecularCoefficient(const float _specularC)			{	m_specularCoefficient = _specularC;	}
 	float GetDiffuseCoefficient()							{	return m_diffuseCoefficient;		}
 	float GetSpecularCoefficient()							{	return m_specularCoefficient;		}
+
+	void SetReflectionCoefficient(const float _reflectC)		{	m_reflectionCoefficient = _reflectC;	}
+	float GetReflectionCoefficient()							{	return m_reflectionCoefficient;		}
 protected:
 
 private:
 	cinder::ColorA m_diffuse, m_specular;
-	float m_diffuseCoefficient, m_specularCoefficient;
+	float m_diffuseCoefficient, m_specularCoefficient, m_reflectionCoefficient;
 };

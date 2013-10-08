@@ -13,7 +13,7 @@ PlanePrimitive::~PlanePrimitive() {
 
 Primitive::E_INTERSECT_RESULT PlanePrimitive::Intersect(const cinder::Ray& inRay, float& inDist) {
 	float denominator = inRay.getDirection().dot(mNormal);
-	if (denominator > ci::EPSILON_VALUE) {
+	if (abs(denominator) > ci::EPSILON_VALUE) {
 		ci::Vec3f rayOriginToPlanePoint = getPoint() - inRay.getOrigin();
 		float result = rayOriginToPlanePoint.dot(mNormal) / denominator;
 		if (result > 0)

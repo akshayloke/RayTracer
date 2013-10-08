@@ -86,16 +86,16 @@ void RayTracerApp::draw()
 	glColor3f( 1, 1, 1 );
 	m_imageTexture.enableAndBind();
 	glBegin( GL_QUADS );
-		glTexCoord2f( m_imageTexture.getLeft(), m_imageTexture.getTop() );
+		glTexCoord2f( m_imageTexture.getLeft(), m_imageTexture.getBottom() );
 		glVertex2f( 0, 0 );
 
-		glTexCoord2f( m_imageTexture.getLeft(), m_imageTexture.getBottom() );
+		glTexCoord2f( m_imageTexture.getLeft(), m_imageTexture.getTop() );
 		glVertex2f( 0, m_imageTexture.getHeight() );
 
-		glTexCoord2f( m_imageTexture.getRight(), m_imageTexture.getBottom() );
+		glTexCoord2f( m_imageTexture.getRight(), m_imageTexture.getTop() );
 		glVertex2f( m_imageTexture.getWidth(), m_imageTexture.getHeight() );
 
-		glTexCoord2f( m_imageTexture.getRight(), m_imageTexture.getTop() );
+		glTexCoord2f( m_imageTexture.getRight(), m_imageTexture.getBottom() );
 		glVertex2f( m_imageTexture.getWidth(), 0 );
 	glEnd();
 }
