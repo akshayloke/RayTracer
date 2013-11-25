@@ -20,7 +20,7 @@ void Scene::Setup() {
 	//ground plane
 	primitive = new PlanePrimitive(ci::Vec3f(0, -50, 0), ci::Vec3f(0, 1, 0));
 	primitive->SetName("Ground Plane");
-	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.1f, 0.2f, 0.3f));
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 0.2f, 0.2f));
 	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
 	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
@@ -28,7 +28,7 @@ void Scene::Setup() {
 	//top plane
 	primitive = new PlanePrimitive(ci::Vec3f(0, 50, 0), ci::Vec3f(0, -1, 0));
 	primitive->SetName("Ground Plane");
-	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 0.0f, 0.0f));
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.2f, 1.0f, 0.2f));
 	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
 	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
@@ -37,7 +37,7 @@ void Scene::Setup() {
 	//side plane
 	primitive = new PlanePrimitive(ci::Vec3f(50, 0, 0), ci::Vec3f(-1, 0, 0));
 	primitive->SetName("Ground Plane");
-	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.2f, 0.1f, 0.3f));
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.2f, 0.2f, 1.0f));
 	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
 	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
@@ -45,7 +45,7 @@ void Scene::Setup() {
 	//side plane
 	primitive = new PlanePrimitive(ci::Vec3f(-50, 0, 0), ci::Vec3f(1, 0, 0));
 	primitive->SetName("Ground Plane");
-	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.2f, 0.1f, 0.3f));
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 1.0f, 0.2f));
 	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
 	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
@@ -54,7 +54,7 @@ void Scene::Setup() {
 	//side plane
 	primitive = new PlanePrimitive(ci::Vec3f(0, 0, 50), ci::Vec3f(0, 0, -1));
 	primitive->SetName("Ground Plane");
-	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 0.2f, 1.0f));
 	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
 	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
@@ -62,7 +62,7 @@ void Scene::Setup() {
 	//side plane
 	primitive = new PlanePrimitive(ci::Vec3f(0, 0, -50), ci::Vec3f(0, 0, 1));
 	primitive->SetName("Ground Plane");
-	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.2f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
 	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
@@ -72,11 +72,12 @@ void Scene::Setup() {
 	//big sphere
 	primitive = new SpherePrimitive(ci::Vec3f(5, 5, 0), 3);
 	primitive->SetName("Big Sphere");
-	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.2f, 0.7f, 1.0f));
 	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
-	primitive->GetMaterial().SetSpecularCoefficient(1.0f);
-	primitive->GetMaterial().SetReflectionCoefficient(0.7f);
+	primitive->GetMaterial().SetSpecularCoefficient(0.1f);
+	primitive->GetMaterial().SetReflectionCoefficient(0.2f);
+	primitive->GetMaterial().SetRefractionCoefficient(1.3f);
 	m_primitives.push_back(primitive);
 	//small sphere
 	primitive = new SpherePrimitive(ci::Vec3f(0, 0, 0), 2);
@@ -86,6 +87,7 @@ void Scene::Setup() {
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
 	primitive->GetMaterial().SetSpecularCoefficient(1.0f);
 	primitive->GetMaterial().SetReflectionCoefficient(0.1f);
+	primitive->GetMaterial().SetRefractionCoefficient(0.0f);
 	m_primitives.push_back(primitive);
 	//light1
 	primitive = new SpherePrimitive(ci::Vec3f(10, 10, -10), 1);
@@ -129,7 +131,7 @@ void Scene::Render(ci::Surface8u *surface) {
 	while (iter.line()) {
 		while (iter.pixel()) {
 			float inDist = 10000.0f;
-			ColorA color = Raytrace(m_camera->generateRay(iter.x()/(float)width, iter.y()/(float)height, aspectRatio), 0, inDist);
+			ColorA color = Raytrace(m_camera->generateRay(iter.x()/(float)width, iter.y()/(float)height, aspectRatio), 0, inDist, 1.0f);
 			iter.r() = ci::math<float>::clamp(bgColor.r * (1.0f - color.a) + color.r * 255.0f, 0.0f, 255.0f);
 			iter.g() = ci::math<float>::clamp(bgColor.g * (1.0f - color.a) + color.g * 255.0f, 0.0f, 255.0f);
 			iter.b() = ci::math<float>::clamp(bgColor.b * (1.0f - color.a) + color.b * 255.0f, 0.0f, 255.0f);
@@ -138,15 +140,15 @@ void Scene::Render(ci::Surface8u *surface) {
 	}
 }
 
-ci::ColorA Scene::Raytrace(const ci::Ray& inRay, int inDepth, float& inDist) {
-	if (inDepth > 3)
+ci::ColorA Scene::Raytrace(const ci::Ray& inRay, int inDepth, float& inDist, const float inRefractIndex) {
+	if (inDepth > 5)
 		return ci::ColorA::black();
 
 	Primitive* hitPrim = NULL;
 	for (int i=0; i<m_primitives.size(); i++) {
 		Primitive* prim = m_primitives[i];
 		Primitive::E_INTERSECT_RESULT result = prim->Intersect(inRay, inDist);
-		if (result == Primitive::HIT) {
+		if (result != Primitive::MISS) {
 			hitPrim = prim;
 		}
 	}
@@ -214,8 +216,24 @@ ci::ColorA Scene::Raytrace(const ci::Ray& inRay, int inDepth, float& inDist) {
 				float dotVN = V.dot(N);
 				ci::Vec3f R = (V - 2.0f * dotVN * N).normalized();
 				float reflectDist = 10000.0f;
-				ci::ColorA reflectedColor = Raytrace(ci::Ray(hitPoint + R * ci::EPSILON_VALUE * 2, R), inDepth + 1, reflectDist);
+				ci::ColorA reflectedColor = Raytrace(ci::Ray(hitPoint + R * ci::EPSILON_VALUE * 2, R), inDepth + 1, reflectDist, inRefractIndex);
 				accumColor += reflectedColor * hitPrim->GetMaterial().GetDiffuseColor() * hitPrim->GetMaterial().GetReflectionCoefficient();
+			}
+		}
+
+		{//refraction
+			if (hitPrim->GetMaterial().GetRefractionCoefficient() > 0.0f) {
+				float refractIndex = hitPrim->GetMaterial().GetRefractionCoefficient();
+				float n = inRefractIndex / refractIndex;
+				ci::Vec3f N = hitPrim->GetNormal(hitPoint);
+				float cosI = -N.dot(inRay.getDirection());
+				float cosT2 = 1.0f - n * n * (1.0f - cosI * cosI);
+				if (cosT2 > 0.0f) {
+					Vec3f T = (n * inRay.getDirection()) + (n * cosI - sqrtf(cosT2)) * N;
+					float refractDist = 10000.0f;
+					ci::ColorA refractedColor = Raytrace(ci::Ray(hitPoint + T * ci::EPSILON_VALUE * 2, T), inDepth + 1, refractDist, refractIndex);
+					accumColor += refractedColor * hitPrim->GetMaterial().GetDiffuseColor() * hitPrim->GetMaterial().GetRefractionCoefficient();
+				}
 			}
 		}
 

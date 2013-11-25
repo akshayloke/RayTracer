@@ -19,9 +19,12 @@ public:
 
 	void SetReflectionCoefficient(const float _reflectC)		{	m_reflectionCoefficient = _reflectC;	}
 	float GetReflectionCoefficient()							{	return m_reflectionCoefficient;		}
+
+	void SetRefractionCoefficient(const float _refractC)		{	m_refractionCoefficient = _refractC;	}
+	float GetRefractionCoefficient()							{	return m_refractionCoefficient;		}
 protected:
 
 private:
 	cinder::ColorA m_diffuse, m_specular;
-	float m_diffuseCoefficient, m_specularCoefficient, m_reflectionCoefficient;
+	float m_diffuseCoefficient, m_specularCoefficient, m_reflectionCoefficient, m_refractionCoefficient;
 };

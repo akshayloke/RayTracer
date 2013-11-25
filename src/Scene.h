@@ -15,7 +15,7 @@ public:
 	void Setup();
 	void RenderGL();
 	void Render(ci::Surface8u *surface);
-	ci::ColorA Raytrace(const ci::Ray& inRay, int inDepth, float& inDist);
+	ci::ColorA Raytrace(const ci::Ray& inRay, int inDepth, float& inDist, const float inRefractIndex);
 
 protected:
 

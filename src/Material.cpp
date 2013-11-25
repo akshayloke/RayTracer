@@ -5,7 +5,8 @@ Material::Material()
 	m_specular(ci::ColorA(1, 1, 1, 1)), 
 	m_diffuseCoefficient(1), 
 	m_specularCoefficient(1),
-	m_reflectionCoefficient(0) {
+	m_reflectionCoefficient(0),
+	m_refractionCoefficient(0) {
 }
 
 Material::~Material() {
