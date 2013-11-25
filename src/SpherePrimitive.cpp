@@ -31,9 +31,10 @@ Primitive::E_INTERSECT_RESULT SpherePrimitive::Intersect(const cinder::Ray& inRa
 	}
 	else { //(intersectResult = 2)
 		if (result[1] < result[0]) {
-			float temp = result[0];
+			/*float temp = result[0];
 			result[0] = result[1];
-			result[1] = temp;
+			result[1] = temp;*/
+			std::swap(result[0], result[1]);
 		}
 
 		if (result[1] < 0) {

@@ -29,6 +29,10 @@ Primitive::E_INTERSECT_RESULT PlanePrimitive::Intersect(const cinder::Ray& inRay
 	return MISS;
 }
 
+ci::Vec3f PlanePrimitive::GetNormal(const ci::Vec3f& inPoint) {
+	return getNormal();
+}
+
 void PlanePrimitive::RenderGL() {
 	
 }

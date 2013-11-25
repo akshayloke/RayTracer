@@ -4,6 +4,7 @@
 #include "cinder\Vector.h"
 #include "cinder\Camera.h"
 #include "cinder\Surface.h"
+#include "cinder\params\Params.h"
 #include "Primitive.h"
 
 class Scene {
@@ -21,5 +22,5 @@ protected:
 private:
 	std::vector<Primitive*> m_primitives;
 	const ci::Camera*	m_camera;
-
+	ci::params::InterfaceGl m_params;
 };

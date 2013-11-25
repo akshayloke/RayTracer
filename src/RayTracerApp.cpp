@@ -27,7 +27,7 @@ class RayTracerApp : public AppNative {
 };
 
 void RayTracerApp::prepareSettings( Settings* settings ) {
-	settings->setWindowSize(400, 300);
+	settings->setWindowSize(400, 400);
 }
 
 void RayTracerApp::setup()
@@ -36,6 +36,7 @@ void RayTracerApp::setup()
 	Vec3f startEyePoint(25, 25, 25);
 	cam.lookAt(startEyePoint, Vec3f::zero(), Vec3f::yAxis());
 	cam.setCenterOfInterest(startEyePoint.distance(Vec3f::zero()));
+	cam.setFov(75);
 	m_mayaCam.setCurrentCam(cam);
 
 	m_imageSurface = std::shared_ptr<Surface8u>(new Surface8u(getWindowWidth(), getWindowHeight(), false));

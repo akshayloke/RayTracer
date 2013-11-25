@@ -16,18 +16,63 @@ Scene::~Scene() {
 
 void Scene::Setup() {
 	Primitive* primitive;
+	
 	//ground plane
-	primitive = new PlanePrimitive(ci::Vec3f(1, -10, 1), ci::Vec3f(0, 1, 0));
+	primitive = new PlanePrimitive(ci::Vec3f(0, -50, 0), ci::Vec3f(0, 1, 0));
 	primitive->SetName("Ground Plane");
 	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.1f, 0.2f, 0.3f));
 	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
-	primitive->GetMaterial().SetSpecularCoefficient(1.0f);
+	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
 	m_primitives.push_back(primitive);
+	//top plane
+	primitive = new PlanePrimitive(ci::Vec3f(0, 50, 0), ci::Vec3f(0, -1, 0));
+	primitive->SetName("Ground Plane");
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 0.0f, 0.0f));
+	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
+	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
+	m_primitives.push_back(primitive);
+
+	//side plane
+	primitive = new PlanePrimitive(ci::Vec3f(50, 0, 0), ci::Vec3f(-1, 0, 0));
+	primitive->SetName("Ground Plane");
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.2f, 0.1f, 0.3f));
+	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
+	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
+	m_primitives.push_back(primitive);
+	//side plane
+	primitive = new PlanePrimitive(ci::Vec3f(-50, 0, 0), ci::Vec3f(1, 0, 0));
+	primitive->SetName("Ground Plane");
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.2f, 0.1f, 0.3f));
+	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
+	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
+	m_primitives.push_back(primitive);
+
+	//side plane
+	primitive = new PlanePrimitive(ci::Vec3f(0, 0, 50), ci::Vec3f(0, 0, -1));
+	primitive->SetName("Ground Plane");
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
+	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
+	m_primitives.push_back(primitive);
+	//side plane
+	primitive = new PlanePrimitive(ci::Vec3f(0, 0, -50), ci::Vec3f(0, 0, 1));
+	primitive->SetName("Ground Plane");
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
+	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
+	primitive->GetMaterial().SetSpecularCoefficient(0.0f);
+	m_primitives.push_back(primitive);
+
+
 	//big sphere
 	primitive = new SpherePrimitive(ci::Vec3f(5, 5, 0), 3);
 	primitive->SetName("Big Sphere");
-	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.5f, 0.2f, 1.0f));
+	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetSpecularColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->GetMaterial().SetDiffuseCoefficient(1.0f);
 	primitive->GetMaterial().SetSpecularCoefficient(1.0f);
@@ -43,17 +88,21 @@ void Scene::Setup() {
 	primitive->GetMaterial().SetReflectionCoefficient(0.1f);
 	m_primitives.push_back(primitive);
 	//light1
-	primitive = new SpherePrimitive(ci::Vec3f(20, 20, -20), 1);
+	primitive = new SpherePrimitive(ci::Vec3f(10, 10, -10), 1);
 	primitive->SetName("Light 1");
 	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(1.0f, 1.0f, 1.0f));
 	primitive->SetIsLight(true);
 	m_primitives.push_back(primitive);
 	////light2
-	primitive = new SpherePrimitive(ci::Vec3f(-30, 20, -30), 1);
+	primitive = new SpherePrimitive(ci::Vec3f(-10, 10, -10), 1);
 	primitive->SetName("Light 2");
 	primitive->GetMaterial().SetDiffuseColor(ci::ColorA(0.7f, 0.7f, 0.7f));
 	primitive->SetIsLight(true);
 	m_primitives.push_back(primitive);
+
+	//PARAMS
+	/*m_params = ci::params::InterfaceGl("RayTracer", Vec2i(200, 200));
+	m_params.addParam("Sphere pos", m_primitives[1]->GetName*/
 }
 
 void Scene::RenderGL() {
@@ -118,13 +167,14 @@ ci::ColorA Scene::Raytrace(const ci::Ray& inRay, int inDepth, float& inDist) {
 					//shadow feeler
 					float shade = 1.0f;
 					ci::Vec3f L = (((SpherePrimitive*)light)->getCenter() - hitPoint).normalized();
+					float lightToHitPointDist = (((SpherePrimitive*)light)->getCenter() - hitPoint).length();
 					ci::Ray shadowFeelerRay(hitPoint + L * ci::EPSILON_VALUE, L);
 					float LDist = 1000.0f;
 					for (int j = 0; j<m_primitives.size(); j++) {
 						Primitive* primJ = m_primitives[j];
 						if (!primJ->IsLight()) {
 							Primitive::E_INTERSECT_RESULT result = primJ->Intersect(shadowFeelerRay, LDist);
-							if (result == Primitive::HIT) {
+							if (result == Primitive::HIT && LDist <= lightToHitPointDist) {
 								shade = 0.0f;
 								break;
 							}
