@@ -12,7 +12,7 @@ public:
 	Scene(const ci::CameraPersp* _cam);
 	virtual ~Scene();
 
-	void Setup();
+	void Setup(ci::params::InterfaceGlRef _params);
 	void RenderGL();
 	void Render(ci::Surface8u *surface);
 	ci::ColorA Raytrace(const ci::Ray& inRay, int inDepth, float& inDist, const float inRefractIndex);
@@ -22,5 +22,4 @@ protected:
 private:
 	std::vector<Primitive*> m_primitives;
 	const ci::Camera*	m_camera;
-	ci::params::InterfaceGl m_params;
 };

@@ -2,6 +2,7 @@
 
 #include "Primitive.h"
 #include "cinder/Plane.h"
+#include "cinder\params\Params.h"
 
 class PlanePrimitive: public Primitive, public cinder::Plane<float> {
 public:
@@ -15,6 +16,7 @@ public:
 	virtual cinder::Vec3f GetNormal(const ci::Vec3f& inPoint);
 
 	virtual void RenderGL();
+	virtual void AddParams(ci::params::InterfaceGlRef _params);
 
 protected:
 private:

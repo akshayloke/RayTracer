@@ -2,6 +2,7 @@
 
 #include "Primitive.h"
 #include "cinder/Sphere.h"
+#include "cinder\params\Params.h"
 
 class SpherePrimitive: public Primitive, public ci::Sphere {
 public:
@@ -13,6 +14,8 @@ public:
 	virtual cinder::Vec3f GetNormal(const ci::Vec3f& inPoint);
 
 	virtual void RenderGL();
+	virtual void AddParams(ci::params::InterfaceGlRef _params);
+
 protected:
 private:	
 };

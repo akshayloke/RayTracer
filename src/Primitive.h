@@ -2,6 +2,7 @@
 
 #include "cinder\Vector.h"
 #include "cinder\Ray.h"
+#include "cinder\params\Params.h"
 
 #include "Material.h"
 
@@ -11,7 +12,7 @@ public:
 	virtual ~Primitive();
 
 	enum E_INTERSECT_RESULT {
-		MISS, HIT, HIT_INSIDE
+		MISS = 0, HIT = 1, HIT_INSIDE = -1
 	};
 	virtual E_INTERSECT_RESULT Intersect(const cinder::Ray& inRay, float& inDist) = 0;
 	virtual ci::Vec3f GetNormal(const ci::Vec3f& inPoint) { return ci::Vec3f(0, 1, 0);	}
@@ -26,6 +27,8 @@ public:
 	Material& GetMaterial() { return m_material; }
 
 	virtual void RenderGL() {}
+	virtual void AddParams(ci::params::InterfaceGlRef _params);
+
 protected:
 
 private:

@@ -72,3 +72,9 @@ void SpherePrimitive::RenderGL() {
 	ci::gl::drawSphere(mCenter, mRadius);
 	glColor3f( 1, 1, 1 );
 }
+
+void SpherePrimitive::AddParams(ci::params::InterfaceGlRef _params) {
+	Primitive::AddParams(_params);
+	_params->addParam(GetName() + "::Center", &mCenter, "group=" + GetName() + " label='Center'");
+	_params->addParam(GetName() + "::Radius", &mRadius, "group=" + GetName() + " label='Radius'");
+}

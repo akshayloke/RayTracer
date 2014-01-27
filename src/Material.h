@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cinder\Color.h"
+#include "cinder\params\Params.h"
 
 class Material {
 public:
@@ -22,6 +23,8 @@ public:
 
 	void SetRefractionCoefficient(const float _refractC)		{	m_refractionCoefficient = _refractC;	}
 	float GetRefractionCoefficient()							{	return m_refractionCoefficient;		}
+
+	void AddParams(ci::params::InterfaceGlRef _params, std::string name);
 protected:
 
 private:

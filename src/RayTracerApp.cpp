@@ -3,6 +3,7 @@
 #include "cinder/gl/Light.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/MayaCamUI.h"
+#include "cinder/params/Params.h"
 #include "Scene.h"
 
 using namespace ci;
@@ -24,24 +25,30 @@ class RayTracerApp : public AppNative {
 	Scene	m_scene;
 	std::shared_ptr<Surface8u> m_imageSurface;
 	gl::Texture m_imageTexture;
+
+	params::InterfaceGlRef	m_params;
 };
 
 void RayTracerApp::prepareSettings( Settings* settings ) {
-	settings->setWindowSize(400, 400);
+	settings->setWindowSize(800, 800);
 }
 
 void RayTracerApp::setup()
 {
 	CameraPersp cam;
-	Vec3f startEyePoint(25, 25, 25);
+	Vec3f startEyePoint(0, 0, 25);
 	cam.lookAt(startEyePoint, Vec3f::zero(), Vec3f::yAxis());
 	cam.setCenterOfInterest(startEyePoint.distance(Vec3f::zero()));
 	cam.setFov(75);
 	m_mayaCam.setCurrentCam(cam);
 
+	m_params = ci::params::InterfaceGl::create("RayTracer", Vec2i(200, 200));
+	m_params->addText("Hello there");
+	m_params->addSeparator();
+
 	m_imageSurface = std::shared_ptr<Surface8u>(new Surface8u(getWindowWidth(), getWindowHeight(), false));
 	m_imageTexture = gl::Texture(*m_imageSurface);
-	m_scene.Setup();
+	m_scene.Setup(m_params);
 }
 
 void RayTracerApp::mouseDown( MouseEvent event )
@@ -99,6 +106,8 @@ void RayTracerApp::draw()
 		glTexCoord2f( m_imageTexture.getRight(), m_imageTexture.getBottom() );
 		glVertex2f( m_imageTexture.getWidth(), 0 );
 	glEnd();
+
+	m_params->draw();
 }
 
 CINDER_APP_NATIVE( RayTracerApp, RendererGl )

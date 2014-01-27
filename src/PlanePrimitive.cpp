@@ -36,3 +36,9 @@ ci::Vec3f PlanePrimitive::GetNormal(const ci::Vec3f& inPoint) {
 void PlanePrimitive::RenderGL() {
 	
 }
+
+void PlanePrimitive::AddParams(ci::params::InterfaceGlRef _params) {
+	Primitive::AddParams(_params);
+	_params->addParam(GetName() + "::Normal", &mNormal, "group=" + GetName() + " label='Normal'");
+	_params->addParam(GetName() + "::Distance", &mDistance, "group=" + GetName() + " label='Distance'");
+}
